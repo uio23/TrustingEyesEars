@@ -16,6 +16,9 @@ const storage = multer.diskStorage({
 });
 const upload = multer({storage: storage});
 
+var morgan = require('morgan')
+app.use(morgan("combined"));
+
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
