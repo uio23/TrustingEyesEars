@@ -1,4 +1,36 @@
-<form action="/upload" method="POST" enctype="multipart/form-data">
-  <input name="file" type="file" accept="image/*">
-  <button type="submit">Upload Image</button>
-</form>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PicTrust</title>
+    <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link rel="stylesheet" href="output.css">
+  </head>
+  <body>
+  <nav class="flex px-4 py-4 items-center relative bg-lgreen">
+  <a  href="/" class="text-4xl font-bold py-0 py-4 text-purple">PicTrust</a>
+    <div class="hidden w-full md:block md:w-auto ml-auto" id="navbar-default">
+      <ul class="px-2 ml-auto text-2xl flex space-x-2 relative top-full left-0 right-0">
+        <li class="flex px-4 py-3 hover:bg-gray-50 ">
+          <a href="/">Home</a>
+        </li>
+        <li class="flex px-4 py-3 hover:bg-gray-50">
+          <a href="/">Upload</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+  </nav>
+  <div class="text-center text-red m-6">
+    <h1 class="text-6xl font-black ">Upload an image</h1>
+    <h3>to register it with our verifier</h3>
+  </div>
+    
+    <form action="/upload" method="POST" enctype="multipart/form-data" class="mt-6 p-4 bg-red rounded-lg w-full max-w-xs">
+      <input name="file" type="file" accept="image/*">
+      <button type="submit" class="bg-llgreen text-purple px-6 py-4 rounded-lg font-bold text-lg text-bold hover:bg-lgreen">Upload</button>
+    </form>
+  </body>
+</html>
+
