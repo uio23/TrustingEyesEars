@@ -26,11 +26,23 @@ const upload = multer({
     }
 });
 
+var morgan = require('morgan')
+app.use(morgan("combined"));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')))
 
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "views", "index.html"));
+});
+
+app.get("/upload", (req, res) => {
+    res.sendFile(path.join(__dirname, "views", "upload.html"));
+});
+
+app.get("/verify", (req, res) => {
+    res.sendFile(path.join(__dirname, "views", "verify.html"));
 });
 
 app.post('/upload', upload.single('file'), (req, res) => {
@@ -64,10 +76,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
             })
             .then(hashes => {
                 console.log('SHA256 hashes of the image:', hashes);
-                res.send({
-                    success: true,
-                    hashes: hashes
-                });
+								res.sendFile(path.join(__dirname, "views", "success.html"));
             })
             .catch(err => {
                 console.error(err);
