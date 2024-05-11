@@ -37,6 +37,14 @@ app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "views", "index.html"));
 });
 
+app.get("/upload", (req, res) => {
+    res.sendFile(path.join(__dirname, "views", "upload.html"));
+});
+
+app.get("/verify", (req, res) => {
+    res.sendFile(path.join(__dirname, "views", "verify.html"));
+});
+
 app.post('/upload', upload.single('file'), (req, res) => {
     if (!req.file) {
         return res.status(400).send({
@@ -68,10 +76,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
             })
             .then(hashes => {
                 console.log('SHA256 hashes of the image:', hashes);
-                res.send({
-                    success: true,
-                    hashes: hashes
-                });
+								res.sendFile(path.join(__dirname, "views", "success.html"));
             })
             .catch(err => {
                 console.error(err);
