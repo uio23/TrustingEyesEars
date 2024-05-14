@@ -42,6 +42,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
            const image = sharp(imagePath); // Create a sharp object for processing the image
            const metadata = await image.metadata(); // Get metadata of the image
            const buffer = await image.raw().ensureAlpha().toBuffer(); // Convert image to buffer with alpha channel
+           
 
            // Define locations on the image for calculating average colors and hashes
            const idAvgSize = 25; // Define the radius of the block, adjust if needed
@@ -74,22 +75,23 @@ async function calculateAndHash(buffer, width, height, locations, size) {
    const results = [];
    for (const [centerX, centerY] of locations) {
        let redTotal = 0, greenTotal = 0, blueTotal = 0, alphaTotal = 0, count = 0;
-       let startX = centerX - size;
-       let startY = centerY - size;
-       let endX = centerX + size;
-       let endY = centerY + size;
+       let startX = Math.max(centerX - size, 0);
+       let startY = Math.max(centerY - size, 0);
+       let endX = Math.min(centerX + size, width - 1);
+       let endY = Math.min(centerY + size, height - 1);
 
        // Iterate over pixels in the specified area and accumulate color totals
        for (let y = startY; y <= endY; y++) {
-        for (let x = startX; x <= endX; x++) {
-            count++;
-            const idx = ((y * width) + x) * 4;
-            redTotal += buffer[idx];
-            greenTotal += buffer[idx + 1];
-            blueTotal += buffer[idx + 2];
-            alphaTotal += buffer[idx + 3];
-        }
-    }
+           for (let x = startX; x <= endX; x++) {
+               count++;
+               const idx = ((y * width) + x) * 4;
+               redTotal += buffer[idx];
+               greenTotal += buffer[idx + 1];
+               blueTotal += buffer[idx + 2];
+               alphaTotal += buffer[idx + 3];
+           }
+       }
+
        // Calculate average color for the specified area
        if (count > 0) {
            const avgColors = [
