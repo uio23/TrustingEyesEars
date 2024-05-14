@@ -9,7 +9,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Sedan+SC&display=swap" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/7dfc14ad36.js" crossorigin="anonymous"></script>
   </head>
   <body class="flex flex-col min-h-screen">
     <nav class="bg-blue px-4 py-4 flex items-center justify-between text-lg gap-x-8">
@@ -19,13 +18,13 @@
     </a>
     <ul class="flex items-center gap-x-6">
       <li class="block">
-        <a href="/" id="current" class="cursor-pointer font-secondary font-md text-purple other underline">Home</a>
+        <a href="/" class="cursor-pointer font-secondary font-md text-purple hover:underline">Home</a>
       </li>
       <li class="block">
-        <a href="/upload" class="cursor-pointer text-purple font-secondary other hover:underline">Upload</a>
+        <a href="/upload" class="cursor-pointer text-purple font-secondary hover:underline">Upload</a>
       </li>
       <li class="block">
-        <a href="/verify" class="cursor-pointer font-secondary font-md text-purple other hover:underline">Verify</a>
+        <a href="/verify" class="cursor-pointer font-secondary font-md text-purple hover:underline">Verify</a>
       </li>
     </ul>
       <div class="flex items-center gap-x-2">
@@ -38,28 +37,11 @@
       </div>
 
   </nav>
-  <div class="text-center bg-red text-lgreen p-24 mb-16">
-      <h1 class="mb-4 font-main font-black text-6xl">Introducing, PicTrust</h1>
-      <h3 class="font-secondary">a reliable, image verification system</h3>
-    </div>
-    <main class="flex flex-col mt-24 mb-24 space-y-16 flex-grow ">
-      
-      <table class="text-center text-purple text-lg table-fixed">
-      <tr>
-      <td style="width:33%;">
-      <i class="fa-regular fa-xl fa-square-check text-dgreen"></i>
-      <p>Verified</p>
-      </td>
-      <td style="width:33%;">
-      <i class="fa-solid fa-xl fa-square-xmark text-red"></i>
-      <p>Tampered</p>
-      </td>
-      <td style="width:33%;">
-      <i class="fa-regular fa-xl fa-circle-question" style="color: #F9DC5C;"></i>
-      <p>Unknown</p>
-      </td>
-      </tr>
-      </table>
+    <main class="flex flex-col justify-center flex-grow">
+      <div class="text-center text-dgreen relative bottom-16">
+        <h1 class="mb-4 font-main font-black text-6xl">Image Registered!</h1>
+        <h3 class="font-secondary">click <a href="/verify" class="nounderline text-blue hover:underline">here</a> to verify its registration</h3>
+      </div>
     </main>
   
     <footer class="flex justify-center w-full gap-x-6  py-8 bg-lblue">
@@ -73,9 +55,6 @@
           </svg>
       </a>  
     </footer>
-    
-    
-    <script src="index.js"></script>
   </body>
 </html>
 
