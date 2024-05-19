@@ -43,13 +43,13 @@
 		}
 
 		/**
-		* Calculates the color average of the surrounding pixels in a cube
-		* of specified size around a given target pixel location.
-		*
-		* @param {number} centerX Target pixel x co-ordinate.
-		* @param {number} centerY Target pixel y co-ordinate.
-		* @param {number} size Size of area to average.
-		* @return An array containing the average rgba value around target pixel.
+			* Calculates the color average of the surrounding pixels in a cube
+			* of specified size around a given target pixel location.
+			*
+			* @param {number} centerX Target pixel x co-ordinate.
+			* @param {number} centerY Target pixel y co-ordinate.
+			* @param {number} size Size of area to average.
+			* @return An array containing the average rgba value around target pixel.
 		*/
 		calculateAvg(centerX, centerY, size) {
 			var redTotal = 0;
@@ -97,10 +97,7 @@
 
 			return pixelAvg ;
 		}
-
 	}
-
-
 
 	const singleimg = document.querySelector("img");
 
@@ -108,11 +105,11 @@
 	var context = canvas.getContext('2d');
 
 	/**
-		* Calculates the SHA256 digest of a given string and returns its
-		* hex string value.
+		* Calculates the SHA digest of a given String and returns its
+		* hex String value.
 		*
-		* @param {String} input The String to hash.
-		* @return Hex String of the input's SHA256 digest.
+		* @param {String} input The string to hash.
+		* @return Hex string of the input's sha256 digest.
 	*/
 	async function getSHA256Hash(input) {
 		// encode input as utf8
@@ -169,7 +166,8 @@
 		*
 		* @param {SubjectImage} subjectImg Subject image to calculate identification for.
 		* @return The identification of the given subject image
-		* */
+		*
+		*/
 	async function calculateID(subjectImg) {
 		let id = [];
 
