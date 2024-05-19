@@ -22,3 +22,4 @@ To connect to database:
 Create .env file in /server and write this in it (replacing {} for actual password)
 
 <code>DB_PASSWORD={}</code>
+
