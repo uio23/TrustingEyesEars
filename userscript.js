@@ -40,6 +40,7 @@
             }
         }
 
+<<<<<<< HEAD
         /**
 		* Calculates the color average of the surrounding pixels in a cube
 		* of specified size around a given target pixel location.
@@ -48,6 +49,16 @@
 		* @param {number} centerY Target pixel y co-ordinate.
 		* @param {number} size Size of area to average.
 		* @return An array containing the average rgba value around target pixel.
+=======
+		/**
+			* Calculates the color average of the surrounding pixels in a cube
+			* of specified size around a given target pixel location.
+			*
+			* @param {number} centerX Target pixel x co-ordinate.
+			* @param {number} centerY Target pixel y co-ordinate.
+			* @param {number} size Size of area to average.
+			* @return An array containing the average rgba value around target pixel.
+>>>>>>> main
 		*/
         calculateAvg(centerX, centerY, size) {
             let redTotal = 0, greenTotal = 0, blueTotal = 0, alphaTotal = 0; // Initialize totals for each color channel
@@ -80,12 +91,54 @@
         }
     }
 
+<<<<<<< HEAD
     /**
 		* Calculates the SHA256 digest of a given string and returns its
 		* hex string value.
+=======
+			// go across and down pixels in average square
+			for (let x = startingX; x < targetX; x++) {
+				for (let y = startingY; y < targetY; y++) {
+					// skip if this pixel doesn't exit
+					if (x <= 0 || y <= 0 || x > this.width || y > this.height) {
+						continue;
+					}
+					// account for this pixels existence
+					validcount++;
+
+					// increment the rgba totals by the color values of this pixel
+					redTotal += this.#getColorValue('r', x - 1, y - 1);
+					greenTotal += this.#getColorValue('g', x - 1, y - 1);
+					blueTotal += this.#getColorValue('b', x - 1, y - 1);
+					alphaTotal += this.#getColorValue('a', x - 1, y - 1);
+				}
+			}
+
+			// calc rgba averages to nearest whole
+			let redAvg = Math.round(Number((redTotal / validcount)));
+			let greenAvg = Math.round(Number((greenTotal / validcount)));
+			let blueAvg = Math.round(Number((blueTotal / validcount)));
+			let alphaAvg = Math.round(Number((alphaTotal / validcount)));
+
+			// assemble the average pixel array
+			let pixelAvg = [redAvg, greenAvg, blueAvg, alphaAvg];
+
+			return pixelAvg ;
+		}
+	}
+
+	const singleimg = document.querySelector("img");
+
+	var canvas = document.createElement("canvas");
+	var context = canvas.getContext('2d');
+
+	/**
+		* Calculates the SHA digest of a given String and returns its
+		* hex String value.
+>>>>>>> main
 		*
-		* @param {String} input The String to hash.
-		* @return Hex String of the input's SHA256 digest.
+		* @param {String} input The string to hash.
+		* @return Hex string of the input's sha256 digest.
 	*/
     async function getSHA256Hash(input) {
         const utf8 = new TextEncoder().encode(input); // Convert input to UTF-8 byte array
@@ -126,6 +179,7 @@
 		*
 		* @param {SubjectImage} subjectImg Subject image to calculate identification for.
 		* @return The identification of the given subject image
+<<<<<<< HEAD
 		* */
     async function calculateID(subjectImg) {
         const idAvgSize = 25; // Size of the region for average color calculation
@@ -136,6 +190,12 @@
             [subjectImg.width - idAvgSize, subjectImg.height - idAvgSize], // Bottom-right corner
             [Math.floor(subjectImg.width / 2), Math.floor(subjectImg.height / 2)] // Center
         ]; // Locations on the image to calculate the average colors
+=======
+		*
+		*/
+	async function calculateID(subjectImg) {
+		let id = [];
+>>>>>>> main
 
         const hashes = [];
         for (let location of locations) {
