@@ -18,6 +18,8 @@
 			this.height = height;
 		}
 
+
+
 		/**
 		* Returns the specified color value of the pixel at the given location in this image
 		* https://stackoverflow.com/questions/30453726/how-do-i-access-change-pixels-in-a-javascript-image-object
@@ -160,6 +162,53 @@
 		});
 	}
 
+
+    async function sendImageData(hashes) {
+        
+		const response = await fetch("", {
+		method: 'POST',
+		headers: {
+		'Accept': 'application/json',
+		'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			
+			0 : hashes[0],
+			1 : hashes[1],
+			2 : hashes[2],
+			3 : hashes[3],
+			4 : hashes[4]   
+		})
+		});
+
+		response.json().then(data => {
+		console.log(JSON.stringify(data));
+		});
+	
+
+		fetch('', options)
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                if (data.result === -1) {
+                    console.log('Image not the same.');
+
+                } else if (data.result === 0) {
+                    console.log('Image is the same.');
+
+                } else if (data.result === 1) {
+                    console.log('Image has been tampered with.');
+
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error.message);
+            });
+				
+    }
+
+
 	/**
 		* Calculates and returns the identification of the given subject image,
 		* which consists of the corner and center pixel average hashes.
@@ -193,6 +242,7 @@
 			id.push(avg);
 		}
 
+		sendImageData(id);
 		return id;
 	}
 
