@@ -35,8 +35,14 @@ async function writeDB(hashes) {
 	const collection = database.collection("image_hashes");
 	// insert hashes and close connection
 	collection.insertOne({"id_hashes": hashes}).then( () => {
-		client.close();
 	});
+}
+
+async function getDB() {
+	const database = client.db("PicTrust");
+	const collection = database.collection("image_hashes");
+	let fg = await collection.find({}).toArray();
+	return fg;
 }
 
 
@@ -88,6 +94,39 @@ app.get("/verify", (req, res) => {
 	res.sendFile(path.join(__dirname, "views", "verify.html"));
 });
 
+app.post("/verify", async (req, res) => {
+	const hashes = req.body;
+	let images_hashes = await getDB();
+
+	let whole = 1;
+	let identified = -1;
+
+	for (let j = 0; j < images_hashes.length; j++) {
+		let image_hashes = images_hashes[j]["id_hashes"];
+		for (let i = 0; i < image_hashes.length; i++) {
+			console.log(image_hashes[i] + "->" + hashes[i]);
+			if(image_hashes[i] == hashes[i]) {
+				identified = 1;
+			}
+			else if((identified == 1) && (image_hashes[i] != hashes[i])) {
+				res.send({"outcome": -1});
+				return;
+			}
+			else {
+				whole = -1;
+			}
+		}
+			if(whole == 1) {
+				res.send({"outcome": 1});
+				return;
+			}
+		identified = -1;
+		whole = 1;
+	}
+		
+	res.send({"outcome": 0});
+});
+
 app.post('/upload', upload.single('file'), async (req, res) => {
 	// If an image was not uploaded
 	if (req.fileValidationError) {
@@ -113,6 +152,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
 		res.sendFile(path.join(__dirname, "views", "success.html"));
 	});
 });
+
 
 
 // -- Helper functions from userscript
