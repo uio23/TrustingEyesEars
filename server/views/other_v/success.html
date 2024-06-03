@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Sedan+SC&display=swap" rel="stylesheet">
   </head>
   <body class="flex flex-col min-h-screen">
-    <nav class="bg-blue px-4 py-4 flex items-center justify-between text-lg gap-x-8">
+    <nav class="bg-lilac px-4 py-4 flex items-center justify-between text-lg gap-x-8">
     <a class="flex cursor-default items-center gap-x-1">
       <img width="36" height="36" class="object-cover" src="logo.png" alt="logo" />
       <span class="text-4xl font-bold font-main text-purple">PicTrust</span>
@@ -23,8 +23,14 @@
       <li class="block">
         <a href="/upload" class="cursor-pointer text-purple font-secondary hover:underline">Upload</a>
       </li>
+      <li class="block">
+        <a href="/verify" class="cursor-pointer font-secondary font-md text-purple hover:underline">Verify</a>
+      </li>
     </ul>
       <div class="flex items-center gap-x-2">
+        <button>
+          <a class="block cursor-pointer rounded-full border-2 font-bold text-purple border-lpurple bg-lilac px-6 py-1 hover:border-purple hover:bg-white">Register</a>
+        </button>
         <button>
           <a class="block cursor-pointer rounded-full border-2 border-lpurple px-6 py-1 hover:border-purple">Login</a>
         </button>
@@ -34,6 +40,7 @@
     <main class="flex flex-col justify-center flex-grow">
       <div class="text-center text-dgreen relative bottom-16">
         <h1 class="mb-4 font-main font-black text-6xl">Image Registered!</h1>
+        <h3 class="font-secondary">click <a href="/verify" class="nounderline text-black hover:underline">here</a> to verify its registration</h3>
       </div>
     </main>
   

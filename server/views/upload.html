@@ -25,14 +25,15 @@
         </li>
       </ul>
     </nav>
+
     <main class="flex flex-col mt-24 mb-24 space-y-16 flex-grow ">
-      <div class="text-center text-black">
+      <div class="text-center text-red">
         <h1 class="mb-4 font-main font-black text-6xl">Upload an image</h1>
         <h3 class="font-secondary">to register it with our verifier</h3>
       </div>
     
       <div class="m-auto">
-        <form action="/upload" method="POST" enctype="multipart/form-data" class="w-[60vw] max-w-screen-md py-6 px-4 rounded-md bg-lilac">
+        <form action="/upload" method="POST" enctype="multipart/form-data" class="w-[60vw] max-w-screen-md py-6 px-4 rounded-md bg-red">
           <input type="file" name="file" id="fileUpload" accept="image/*" style="display:none;"/>
           <img id="image" class="" style="max-width: 600px; max-height: 400px;"/>
           

@@ -1,34 +1,43 @@
 // ==UserScript==
-// @name         Image verification
+// @name         PicTrust Verifier
 // @namespace    http://tampermonkey.net/
-// @version      2024-04-10
-// @description  client side to image verification
-// @author       Oleksandr Kashpir 1637705
-// @match        https://www.publicdomainpictures.net/*
+// @version      1.0.0
+// @description  Client-side to the PicTrust image verification ecosystem
+// @author       Oleksandr Kashpir
+// @include      https://*
+// @include      http://*
 // @grant        none
 // ==/UserScript==
 
 (function() {
 	'use strict';
+	/**
+		* A custom image class that represents an `Image` object with some of its data,
+		* also containing a set of functions for calculating pixel averages within that image.
+		*/
 	class SubjectImage {
-		constructor(imgData, width, height) {
-			this.imgData = imgData;
-			this.rgbaArray = imgData.data;
+		/**
+			* Initializes this subjectImage's fields to the data extracted from an `Image` object.
+			*
+			* @param {Array} rgbaArray Pixel data of the image.
+			* @param {number} width Width of the image.
+			* @param {number} height Height of the image.
+			*/
+		constructor(rgbaArray, width, height) {
+			this.rgbaArray = rgbaArray;
 			this.width = width;
 			this.height = height;
 		}
 
 
-
 		/**
-		* Returns the specified color value of the pixel at the given location in this image
-		* https://stackoverflow.com/questions/30453726/how-do-i-access-change-pixels-in-a-javascript-image-object
-		*
-		* @param {char} color The desired color.
-		* @param {number} x Pixel x co-ordinate.
-		* @param {number} y Pixel y co-ordinate.
-		* @return Value of the specified color of the pixel.
-		*/
+			* Returns the specified color value of the pixel at the given location in this image
+			*
+			* @param {char} color The desired color.
+			* @param {number} x Pixel x co-ordinate.
+			* @param {number} y Pixel y co-ordinate.
+			* @return Value of the specified color of the pixel.
+			*/
 		#getColorValue(color, x, y) {
 			switch (color) {
 				case 'r':
@@ -44,43 +53,44 @@
 			}
 		}
 
+
 		/**
-			* Calculates the color average of the surrounding pixels in a cube
+			* Calculates the color average of the surrounding pixels in a square
 			* of specified size around a given target pixel location.
 			*
 			* @param {number} centerX Target pixel x co-ordinate.
 			* @param {number} centerY Target pixel y co-ordinate.
-			* @param {number} size Size of area to average.
-			* @return An array containing the average rgba value around target pixel.
-		*/
+			* @param {number} size Size of area square to average.
+			* @return An array containing the average rgba value around target pixel (including target pixel).
+			*/
 		calculateAvg(centerX, centerY, size) {
 			var redTotal = 0;
 			var greenTotal = 0;
 			var blueTotal = 0;
 			var alphaTotal = 0;
 
-			// track how many pixel actually exist in the average-square
+			// Track how many pixel actually exist in the average square
 			var validcount = 0;
 
-			// calc the top left 
+			// Calc top-left pixel
 			var startingX = centerX - size;
 			var startingY = centerY - size;
-			// and bottom right
+			// ...and bottom-right pixel
 			var targetX = centerX + size;
 			var targetY = centerY + size;
-			// ...corners of average square
+			// ...of the average square
 
-			// go across and down pixels in average square
+			// Go across and down pixels in the average square
 			for (let x = startingX; x < targetX; x++) {
 				for (let y = startingY; y < targetY; y++) {
-					// skip if this pixel doesn't exit
+					// Skip if current pixel doesn't exit on the image
 					if (x <= 0 || y <= 0 || x > this.width || y > this.height) {
 						continue;
 					}
-					// account for this pixels existence
+					// Account for this pixel's existence
 					validcount++;
 
-					// increment the rgba totals by the color values of this pixel
+					// Increment the rgba totals by the color values of this pixel
 					redTotal += this.#getColorValue('r', x - 1, y - 1);
 					greenTotal += this.#getColorValue('g', x - 1, y - 1);
 					blueTotal += this.#getColorValue('b', x - 1, y - 1);
@@ -88,53 +98,51 @@
 				}
 			}
 
-			// calc rgba averages to nearest whole
+			// Calc rgba averages to nearest whole
 			let redAvg = Math.round(Number((redTotal / validcount)));
 			let greenAvg = Math.round(Number((greenTotal / validcount)));
 			let blueAvg = Math.round(Number((blueTotal / validcount)));
 			let alphaAvg = Math.round(Number((alphaTotal / validcount)));
 
-			// assemble the average pixel array
+			// Assemble the average pixel array
 			let pixelAvg = [redAvg, greenAvg, blueAvg, alphaAvg];
 
 			return pixelAvg ;
 		}
 	}
 
-	const singleimg = document.querySelector("img");
 
-	var canvas = document.createElement("canvas");
-	var context = canvas.getContext('2d');
 
 	/**
-		* Calculates the SHA digest of a given String and returns its
+		* Calculates the SHA256 digest of a given String and returns its
 		* hex String value.
 		*
-		* @param {String} input The string to hash.
-		* @return Hex string of the input's sha256 digest.
-	*/
+		* @param {String} input The String to hash.
+		* @return Hex String of the input's SHA256 digest.
+		*/
 	async function getSHA256Hash(input) {
-		// encode input as utf8
+		// Encode input as utf8
 		const utf8 = new TextEncoder().encode(input);
 
-		// return digest converted to hex string
+		// Return digest converted to hex string
 		return await crypto.subtle.digest("sha-256", utf8).then((digestBuffer) => {
-			// https://developer.mozilla.org/en-us/docs/web/api/subtlecrypto/digest#converting_a_digest_to_a_hex_string
-			// convert resutling ArrayBuffer digest to array
+			// Convert resutling ArrayBuffer digest to an Array
 			const hashArray = Array.from(new Uint8Array(digestBuffer));
-			// convert resulting Array to String
+			// Convert resulting Array to a String
 			const hash = hashArray.map((item) => item.toString(16).padStart(2, "0")).join("");
 
 			return hash;
 		});
 	};
 
+
 	/**
-		* Clones an image from the given source and a SubjectImage object of it once it loads. 
+		* Clones an image from the passed source and creates a SubjectImage object of it once it loads.
 		*
 		* @param {String} imgSrc URL of the relevant image.
 		* @param {HtmlCanvasElement} canvas A canvas that the image can be drawn on.
-		* @param {CanvasRenderingContext2D} context The drawing surface for the image. 
+		* @param {CanvasRenderingContext2D} context The drawing surface for the image.
+    * @return A promise that resolves to a new SubjectImage created from passed source.
 		*/
 	function loadImage(imgSrc, canvas, context) {
 		return new Promise((resolve, reject) => {
@@ -153,76 +161,63 @@
 				// Draw the image onto the canvas's context
 				context.drawImage(img, 0, 0);
 
-				// Extract the data of the image copy 
+				// Extract the data of the image copy
 				const imgData = context.getImageData(0, 0, img.width, img.height);
 
-				resolve(new SubjectImage(imgData, img.width, img.height));
+				resolve(new SubjectImage(imgData.data, img.width, img.height));
 			}
 			img.onerror = reject
 		});
 	}
 
 
-    async function sendImageData(hashes) {
-        
-		const response = await fetch("", {
-		method: 'POST',
-		headers: {
-		'Accept': 'application/json',
-		'Content-Type': 'application/json'
-		},
-		body: JSON.stringify({
-			
-			0 : hashes[0],
-			1 : hashes[1],
-			2 : hashes[2],
-			3 : hashes[3],
-			4 : hashes[4]   
-		})
-		});
-
-		response.json().then(data => {
-		console.log(JSON.stringify(data));
-		});
-	
-
-		fetch('', options)
-            .then(response => {
-                return response.json();
+    /**
+    	* Verifies the passed Array of id hashes with the PicTrust server.
+    	*
+    	* @param {Array} hashes The Array of hashes to verify.
+    	* @return A promise that resolves to the server's response body.
+    	*/
+    async function verifyID(hashes) {
+        // The request specifications
+        let options = {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            // Include hashes in body of request
+            body: JSON.stringify({
+                0: hashes[0],
+                1: hashes[1],
+                2: hashes[2],
+                3: hashes[3],
+                4: hashes[4]
             })
-            .then(data => {
-                if (data.result === -1) {
-                    console.log('Image not the same.');
+        };
 
-                } else if (data.result === 0) {
-                    console.log('Image is the same.');
+        // Make request to the /verify endpoint
+        let response = await fetch('http://localhost:3000/verify', options);
 
-                } else if (data.result === 1) {
-                    console.log('Image has been tampered with.');
-
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error.message);
-            });
-				
+        // Return the response's data promise
+        return response.json();
     }
 
 
 	/**
-		* Calculates and returns the identification of the given subject image,
-		* which consists of the corner and center pixel average hashes.
+		* Calculates and returns the 5 identifying hashes of the given SubjectImage,
+		* which consist of 4 corner and 1 center rgba square average areas.
 		*
 		* @param {SubjectImage} subjectImg Subject image to calculate identification for.
 		* @return The identification of the given subject image
-		*
 		*/
 	async function calculateID(subjectImg) {
 		let id = [];
 
+		// Define the id areas sizes
 		const idAvgSize = 50;
 		const halfIdAvgSize = 25;
 
+		// Predefine x & y coordinates of the centers of the 5 id areas
 		const locations = [
 			[halfIdAvgSize, halfIdAvgSize],
 			[subjectImg.width - halfIdAvgSize, halfIdAvgSize],
@@ -231,24 +226,105 @@
 			[Math.round(subjectImg.width / 2), Math.round(subjectImg.height / 2)],
 		]
 
+		// Calculate the average rgba value around each id area
 		for (let i = 0; i < locations.length; i++) {
 			let avg = subjectImg.calculateAvg(locations[i][0], locations[i][1], idAvgSize);
-			console.log(avg);
+      // Hash the average rgba value
 			avg = avg.toString();
-			console.log(avg);
 			avg = await getSHA256Hash(avg);
-			console.log(avg);
 
+			// Add it to the id hashes Array
 			id.push(avg);
 		}
 
-		sendImageData(id);
 		return id;
 	}
 
-	loadImage(singleimg.src, canvas, context).then(subjectImg => {
-		calculateID(subjectImg).then(id => {
-			console.log(id);
-		});
-	});
+
+    /**
+    	* Attaches a FontAwesome icon to the specified Image object on the page,
+    	* the icon depends on the verification status of the image.
+    	*
+    	* @param {Image} image The relevant image from webpage.
+    	* @param {number} status The image's verification status.
+    	*/
+    function attachIcon(image, status) {
+        // Create a new i tag for the icon
+        const icon = document.createElement("i");
+        // ...and a new span to house the image and icon together
+        const host = document.createElement("span");
+
+        let color;
+
+        switch(status) {
+            // Tampered status grants a red X mark
+            case -1:
+                icon.classList="fa-solid fa-xl fa-square-xmark";
+                color = "#A13D63";
+                break;
+            // Unidentified status grants a yellow ? mark
+            case 0:
+                icon.classList="fa-regular fa-xl fa-circle-question";
+                color = "#F9DC5C";
+                break;
+            // Verified status grants a green Check mark
+            case 1:
+                icon.classList="fa-regular fa-xl fa-square-check";
+                color = "#397367";
+                break;
+        }
+
+        // Set the icon to be appropriately colored and positioned in the bottom right of the image
+        icon.style=`color: ${color}; position: absolute; top: ${image.height - 20}px; left: ${image.width - 30}px `;
+        // Position the hosting span relaively
+        host.style ="position: relative;"
+
+        // Append the hosting span to the parent of the image
+        image.parentElement.append(host)
+
+        // Append both icon and image to the span
+        host.append(image);
+        host.append(icon);
+    }
+
+
+    // Select all the images on the site
+	const allImages = document.querySelectorAll("img");
+
+    // Create a virtal canvas and context
+	var canvas = document.createElement("canvas");
+	var context = canvas.getContext('2d');
+
+    // Create a new script tag for the FontAwesome resource
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.async = true;
+    script.crossorigin = "anonymous";
+
+
+    // Define callback to proccess all images once the script loads
+    script.onload = function(){
+        for(let i = 0; i < allImages.length; i++) {
+            let image = allImages[i];
+            if (image.height >= 112 && image.width >=112) {
+                // For each reasonably sized image
+                loadImage(image.src, canvas, context).then(subjectImg => {
+                    // Calc its ID
+                    calculateID(subjectImg).then(id => {
+                        // Verify that ID
+                        verifyID(id).then(res => {
+                            // Attach a FontAwesome icon based on verification outcome
+                            attachIcon(image, res.outcome);
+                        });
+                    });
+                });
+            }
+        }
+    };
+
+
+    // Link script to FontAwsome kit
+    script.src = 'https://kit.fontawesome.com/7dfc14ad36.js';
+    // ...and append it to the head of the webpage
+    document.getElementsByTagName('head')[0].appendChild(script);
 })();
