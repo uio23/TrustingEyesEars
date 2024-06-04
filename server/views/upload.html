@@ -12,31 +12,19 @@
   </head>
   <body class="flex flex-col min-h-screen">
     <nav class="bg-lilac px-4 py-4 flex items-center justify-between text-lg gap-x-8">
-    <a class="flex cursor-default items-center gap-x-1">
-      <img width="36" height="36" class="object-cover" src="logo.png" alt="logo" />
-      <span class="text-4xl font-bold font-main text-purple">PicTrust</span>
-    </a>
-    <ul class="flex items-center gap-x-6">
-      <li class="block">
-        <a href="/" class="cursor-pointer font-secondary font-md text-purple other hover:underline">Home</a>
-      </li>
-      <li class="block">
-        <a href="/upload" id="current" class="cursor-pointer text-purple font-secondary underline">Upload</a>
-      </li>
-      <li class="block">
-        <a href="/verify" class="cursor-pointer font-secondary font-md text-purple other hover:underline">Verify</a>
-      </li>
-    </ul>
-      <div class="flex items-center gap-x-2">
-        <button>
-          <a class="block cursor-pointer rounded-full border-2 font-bold text-purple border-lpurple bg-lilac px-6 py-1 hover:border-purple hover:bg-white">Register</a>
-        </button>
-        <button>
-          <a class="block cursor-pointer rounded-full border-2 border-lpurple px-6 py-1 hover:border-purple">Login</a>
-        </button>
-      </div>
-
-  </nav>
+      <a class="flex cursor-default items-center gap-x-1">
+        <img width="36" height="36" class="object-cover" src="logo.png" alt="logo" />
+        <span class="text-4xl font-bold font-main text-purple">PicTrust</span>
+      </a>
+      <ul class="flex items-center gap-x-6">
+        <li class="block">
+          <a href="/" class="cursor-pointer font-secondary font-md text-purple other hover:underline">Home</a>
+        </li>
+        <li class="block">
+          <a href="/upload" id="current" class="cursor-pointer text-purple font-secondary underline">Upload</a>
+        </li>
+      </ul>
+    </nav>
     <main class="flex flex-col mt-24 mb-24 space-y-16 flex-grow ">
       <div class="text-center text-black">
         <h1 class="mb-4 font-main font-black text-6xl">Upload an image</h1>
@@ -50,13 +38,13 @@
           
           <div id="uploadButtons" class="flex flex-row justify-center">
             <input id="uploadButton" type="button" value="Browse" class="bg-lyellow text-purple font-secondary rounded-sm p-2 text-lg hover:bg-lgreen"/>
-            <input id="submitButton" type="submit" value="Upload" class="hidden bg-llgreen text-purple font-secondary p-2 font-bold rounded-sm  text-lg hover:bg-lgreen"/>
+            <input id="submitButton" type="submit" value="Upload" class="hidden bg-llgreen text-purple font-secondary p-2 font-bold rounded-sm text-lg hover:bg-lgreen"/>
           </div>
         </form>
       </div>
     </main>
   
-    <footer class="flex justify-center w-full gap-x-6  py-8 bg-lblue">
+    <footer class="flex justify-center w-full gap-x-6 py-8 bg-lblue">
       <a href="https://www.waikato.ac.nz/">
         <img class="w-20" src="uow.svg" alt="University of Waikato Arms"/>
       </a>
@@ -68,8 +56,6 @@
       </a>  
     </footer>
     
-    
     <script src="upload.js"></script>
   </body>
 </html>
-
