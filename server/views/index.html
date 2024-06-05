@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Sedan+SC&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/7dfc14ad36.js" crossorigin="anonymous"></script>
-    <style>
+        <style>
       /*Modal styling*/
       .modal {
         display: none; 
@@ -62,70 +62,63 @@
     </style>
   </head>
   <body class="flex flex-col min-h-screen">
-
-    <nav class="bg-lilac px-4 py-4 flex items-center justify-between text-lg gap-x-8">
-      <a class="flex cursor-default items-center gap-x-1">
-        <img width="36" height="36" class="object-cover" src="logo.png" alt="logo" />
-        <span class="text-4xl font-bold font-main text-purple">PicTrust</span>
-      </a>
-      <ul class="flex items-center gap-x-6">
-        <li class="block">
-          <a href="/" id="current" class="cursor-pointer font-secondary font-md text-purple other underline">Home</a>
-        </li>
-        <li class="block">
-          <a href="/upload" class="cursor-pointer text-purple font-secondary other hover:underline">Upload</a>
-        </li>
-      </ul>
+    <nav class="bg-blue px-4 py-4 flex items-center justify-between text-lg gap-x-8">
+    <a class="flex cursor-default items-center gap-x-1">
+      <img width="36" height="36" class="object-cover" src="logo.png" alt="logo" />
+      <span class="text-4xl font-bold font-main text-purple">PicTrust</span>
+    </a>
+    <ul class="flex items-center gap-x-6">
+      <li class="block">
+        <a href="/" id="current" class="cursor-pointer font-secondary font-md text-purple other underline">Home</a>
+      </li>
+      <li class="block">
+        <a href="/upload" class="cursor-pointer text-purple font-secondary other hover:underline">Upload</a>
+      </li>
+    </ul>
       <div class="flex items-center gap-x-2">
         <button id="loginBtn">
-          <a class="block cursor-pointer rounded-full border-2 font-bold border-lpurple px-6 py-1 hover:border-purple">Login</a>
+          <a class="block cursor-pointer rounded-full border-2 border-lpurple px-6 py-1 hover:border-purple">Login</a>
         </button>
       </div>
-    </nav>
 
-    <div class="text-center text-black p-24 mb-16">
+  </nav>
+  <div class="text-center bg-red text-lgreen p-24 mb-16">
       <h1 class="mb-4 font-main font-black text-6xl">Introducing, PicTrust</h1>
       <h3 class="font-secondary">a reliable, image verification system</h3>
     </div>
     <main class="flex flex-col mt-24 mb-24 space-y-16 flex-grow ">
+      
       <table class="text-center text-purple text-lg table-fixed">
-
-        <tr>
-          <td style="width:33%;">
-            <i class="fa-regular fa-xl fa-square-check text-dgreen"></i>
-            <p>___</p>
-            <p>Verified</p>
-            <p>This image has been verified as authentic and unaltered, making it safe for use.</p>
-          </td>
-          <td style="width:33%;">
-            <i class="fa-solid fa-xl fa-square-xmark text-red"></i>
-            <p>___</p>
-            <p>Tampered</p>
-            <p>This image has been altered, so exercise caution when using it.</p>
-          </td>
-          <td style="width:33%;">
-            <i class="fa-regular fa-xl fa-circle-question" style="color: #F9DC5C;"></i>
-            <p>___</p>
-            <p>Unknown</p>
-            <p>This image has not been registered with us, therefore its owners and origin are unknown.</p>
-          </td>
-        </tr>
+      <tr>
+      <td style="width:33%;">
+      <i class="fa-regular fa-xl fa-square-check text-dgreen"></i>
+      <p>Verified</p>
+      </td>
+      <td style="width:33%;">
+      <i class="fa-solid fa-xl fa-square-xmark text-red"></i>
+      <p>Tampered</p>
+      </td>
+      <td style="width:33%;">
+      <i class="fa-regular fa-xl fa-circle-question" style="color: #F9DC5C;"></i>
+      <p>Unknown</p>
+      </td>
+      </tr>
       </table>
     </main>
-
-    <footer class="flex justify-center w-full gap-x-6 py-8 bg-lblue">
+  
+    <footer class="flex justify-center w-full gap-x-6  py-8 bg-lblue">
       <a href="https://www.waikato.ac.nz/">
         <img class="w-20" src="uow.svg" alt="University of Waikato Arms"/>
       </a>
       <a href="https://github.com/abbie-reid/TrustingEyesEars" class="my-auto text-purple">
         <span class="sr-only">GitHub</span>
-        <svg class="w-8 block mx-auto" aria-hidden="true" fill="currentColor" viewBox="0 0 24 24">
-          <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path>
-        </svg>
+          <svg class="w-8 block mx-auto" aria-hidden="true" fill="currentColor" viewBox="0 0 24 24">
+            <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path>
+          </svg>
       </a>  
     </footer>
     
-    <!-- The Modal -->
+        <!-- The Modal -->
     <div id="loginModal" class="modal">
       <div class="modal-content">
         <span class="close">&times;</span>
@@ -181,6 +174,9 @@
         modal.style.display = "none";
       }
     </script>
-
+    
+    
+    <script src="index.js"></script>
   </body>
 </html>
+
